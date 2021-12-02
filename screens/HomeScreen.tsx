@@ -12,7 +12,7 @@ export const HomeScreen = () => {
                 <TouchableOpacity style={tailwind('bg-blue-800 p-3 rounded-lg mt-5')} onPress={() => setCount(count-1)}>
                     <Text style={tailwind('text-white')}>Decrease</Text>
                 </TouchableOpacity>
-                <View style={tailwind('m-2')}></View>
+                <View style={tailwind('m-2')}/>
                 <TouchableOpacity style={tailwind('bg-blue-800 p-3 rounded-lg mt-5')} onPress={() => setCount(count+1)}>
                     <Text style={tailwind('text-white')}>Increase</Text>
                 </TouchableOpacity>

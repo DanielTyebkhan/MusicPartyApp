@@ -1,29 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {NavigationContainer} from "@react-navigation/native";
 import {HomeScreen} from "./screens/HomeScreen";
+import {connect, Provider} from "react-redux";
+import configureStore from "./configureStore";
+import {changeCount} from "./actions/counts";
+import {bindActionCreators} from "redux";
+import MainAppComponent from "./MainAppComponent";
 
-const Stack = createNativeStackNavigator();
+const store = configureStore();
 
-export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
+const App = () => (
+    <Provider store={store}>
+        <MainAppComponent/>
+    </Provider>
+);
 
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
-}
+export default App;
+

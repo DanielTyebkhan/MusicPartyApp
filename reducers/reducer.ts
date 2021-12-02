@@ -4,7 +4,7 @@ const initialState = {
     count: 0
 }
 
-export const countReducer = (state = initialState, action: any) => {
+export const reducer = (state = initialState, action: any) => {
     switch (action.type) {
         case COUNTER_CHANGE:
             return {

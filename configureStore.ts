@@ -1,8 +1,8 @@
-import {combineReducers, createStore} from "redux";
-import {reducer} from "./reducers/reducer";
+import { createStore } from "redux";
+import { reducer } from "./reducers/reducer";
 
 const configureStore = () => {
-    return createStore(reducer);
-}
+  return createStore(reducer);
+};
 
 export default configureStore;

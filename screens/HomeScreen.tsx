@@ -1,13 +1,13 @@
 import tailwind from "tailwind-rn";
 import {TouchableOpacity, View, Text} from "react-native";
-import {useState} from "react";
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {COUNTER_CHANGE} from "../constants";
+import {IState} from "../reducers/reducer";
 
 export const HomeScreen = () => {
     const dispatch = useDispatch();
-    const count = useSelector(store => store.count)
+    const count = useSelector((store: IState) => store.count)
     const setCount = (newCount: number) => dispatch({type: COUNTER_CHANGE, payload: newCount});
     return (
         <View style={tailwind("bg-black flex justify-center items-center h-full")}>

@@ -5,6 +5,8 @@ import {COUNTER_CHANGE} from "../constants";
 import {IState} from "../reducers/reducer";
 import {StyledButton} from "../components/StyledButton";
 import {tailwind} from "../tailwind";
+import Background from "../components/Background";
+import StyledTextInput from "../components/StyledTextInput";
 
 export const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -40,16 +42,11 @@ export const HomeScreen = () => {
   const trackNameComp = ({item}: {item: string}) => <Text>{item}</Text>;
 
   return (
-    <View style={tailwind("bg-black flex justify-center items-center h-full")}>
-      <TextInput
-        style={tailwind("bg-red-800")}
-        value={text}
-        onChangeText={changeText}
-      />
+    <Background>
+      <StyledTextInput value={text} onChangeText={changeText} />
       <StyledButton text={"Get Top Songs"} action={updateSongs}/>
       <View style={tailwind("m-2")}/>
-      <FlatList style={tailwind("bg-red-800 flex-grow-0")} data={songs} renderItem={trackNameComp}
-                keyExtractor={(item, index) => index}/>
+      <FlatList style={tailwind("bg-red-800 flex-grow-0")} data={songs} renderItem={trackNameComp}/>
       <View style={tailwind("m-2")}/>
       <Text style={tailwind("text-white")}>{count}</Text>
       <View style={tailwind("flex-row")}>
@@ -57,6 +54,6 @@ export const HomeScreen = () => {
         <View style={tailwind("m-2")}/>
         <StyledButton text={"Increase"} action={() => setCount(count + 1)}/>
       </View>
-    </View>
+    </Background>
   );
 };

@@ -1,10 +1,10 @@
 import React from "react";
-import tailwind from "tailwind-rn";
+import {tailwind} from "../tailwind";
 import {Text, TouchableOpacity} from "react-native";
 
-export const MPAButton = ({text, action}: {text: string, action: () => void}) => (
+export const StyledButton = ({text, action}: {text: string, action: () => void}) => (
   <TouchableOpacity
-    style={tailwind("bg-blue-800 p-3 rounded-lg mt-5")}
+    style={tailwind("bg-primary p-3 rounded-lg mt-5")}
     onPress={action}
     activeOpacity={0.7}
   >

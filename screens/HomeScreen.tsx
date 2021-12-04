@@ -1,10 +1,10 @@
-import tailwind from "tailwind-rn";
 import {View, Text, TextInput, FlatList} from "react-native";
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {COUNTER_CHANGE} from "../constants";
 import {IState} from "../reducers/reducer";
-import {MPAButton} from "../components/MPAButton";
+import {StyledButton} from "../components/StyledButton";
+import {tailwind} from "../tailwind";
 
 export const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -37,12 +37,7 @@ export const HomeScreen = () => {
     setSongs(songs);
   }
 
-  const trackNameComp = ({item}) => {
-    console.log(item);
-    return (
-      <Text>{item}</Text>
-    );
-  }
+  const trackNameComp = ({item}: {item: string}) => <Text>{item}</Text>;
 
   return (
     <View style={tailwind("bg-black flex justify-center items-center h-full")}>
@@ -51,16 +46,16 @@ export const HomeScreen = () => {
         value={text}
         onChangeText={changeText}
       />
-      <MPAButton text={"Get Top Songs"} action={updateSongs}/>
+      <StyledButton text={"Get Top Songs"} action={updateSongs}/>
       <View style={tailwind("m-2")}/>
       <FlatList style={tailwind("bg-red-800 flex-grow-0")} data={songs} renderItem={trackNameComp}
                 keyExtractor={(item, index) => index}/>
       <View style={tailwind("m-2")}/>
       <Text style={tailwind("text-white")}>{count}</Text>
       <View style={tailwind("flex-row")}>
-        <MPAButton text={"Decrease"} action={() => setCount(count - 1)}/>
+        <StyledButton text={"Decrease"} action={() => setCount(count - 1)}/>
         <View style={tailwind("m-2")}/>
-        <MPAButton text={"Increase"} action={() => setCount(count + 1)}/>
+        <StyledButton text={"Increase"} action={() => setCount(count + 1)}/>
       </View>
     </View>
   );

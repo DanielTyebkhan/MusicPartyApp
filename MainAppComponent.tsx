@@ -16,7 +16,7 @@ const MainAppComponent = () => {
   } else {
     return (
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName={HOME_SCREEN}>
+        <Drawer.Navigator screenOptions={{headerStatusBarHeight: 30}} initialRouteName={HOME_SCREEN}>
           <Drawer.Screen name={HOME_SCREEN} component={HomeScreen}/>
           <Drawer.Screen name={LOGIN} component={LoginInScreen}/>
         </Drawer.Navigator>

@@ -1,4 +1,4 @@
-import {View, Text, TextInput, FlatList} from "react-native";
+import {View, Text, FlatList} from "react-native";
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {COUNTER_CHANGE} from "../constants";
@@ -8,7 +8,8 @@ import {tailwind} from "../tailwind";
 import Background from "../components/Background";
 import StyledTextInput from "../components/StyledTextInput";
 
-export const HomeScreen = () => {
+export const HomeScreen = ({ navigation }) => {
+  console.log(navigation);
   const dispatch = useDispatch();
   const count = useSelector((store: IState) => store.count);
 

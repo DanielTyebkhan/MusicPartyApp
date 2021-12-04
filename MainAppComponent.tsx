@@ -2,10 +2,12 @@ import React from 'react';
 
 import useCachedResources from './hooks/useCachedResources';
 import {HomeScreen} from "./screens/HomeScreen";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {NavigationContainer} from "@react-navigation/native";
+import LoginInScreen from "./screens/LoginInScreen";
+import {HOME_SCREEN, LOGIN} from "./constants/Navigation";
+import {createDrawerNavigator} from "@react-navigation/drawer";
 
-const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const MainAppComponent = () => {
   const isLoadingComplete = useCachedResources();
@@ -14,9 +16,10 @@ const MainAppComponent = () => {
   } else {
     return (
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen}/>
-        </Stack.Navigator>
+        <Drawer.Navigator initialRouteName={HOME_SCREEN}>
+          <Drawer.Screen name={HOME_SCREEN} component={HomeScreen}/>
+          <Drawer.Screen name={LOGIN} component={LoginInScreen}/>
+        </Drawer.Navigator>
       </NavigationContainer>
     );
   }

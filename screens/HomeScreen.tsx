@@ -5,11 +5,10 @@ import {COUNTER_CHANGE} from "../constants";
 import {IState} from "../reducers/reducer";
 import {StyledButton} from "../components/StyledButton";
 import {tailwind} from "../tailwind";
-import Background from "../components/Background";
-import StyledTextInput from "../components/StyledTextInput";
+import { Background } from "../components/Background";
+import { StyledTextInput } from "../components/StyledTextInput";
 
-export const HomeScreen = ({ navigation }) => {
-  console.log(navigation);
+export const HomeScreen = () => {
   const dispatch = useDispatch();
   const count = useSelector((store: IState) => store.count);
 

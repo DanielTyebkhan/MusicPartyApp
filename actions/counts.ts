@@ -1,8 +1,8 @@
-import {COUNTER_CHANGE} from "../constants";
+import {COUNTER_CHANGE} from "../constants/ReduxActions";
 
 export const changeCount = (count: number) => {
-    return {
-        type: COUNTER_CHANGE,
-        payload: count
-    }
+  return {
+    type: COUNTER_CHANGE,
+    payload: count
+  }
 }

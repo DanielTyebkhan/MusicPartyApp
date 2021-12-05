@@ -1,12 +1,13 @@
 import {View, Text, FlatList} from "react-native";
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {COUNTER_CHANGE} from "../constants";
-import {IState} from "../reducers/reducer";
+import {COUNTER_CHANGE} from "../constants/ReduxActions";
+import {IState} from "../reducers";
 import {StyledButton} from "../components/StyledButton";
 import {tailwind} from "../tailwind";
 import { Background } from "../components/Background";
 import { StyledTextInput } from "../components/StyledTextInput";
+import {changeCount} from "../actions/counts";
 
 export const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -14,9 +15,6 @@ export const HomeScreen = () => {
 
   const [text, changeText] = useState("");
   const [songs, setSongs] = useState([] as string[]);
-
-  const setCount = (newCount: number) =>
-    dispatch({type: COUNTER_CHANGE, payload: newCount});
 
   const getLastSongs = async (oauth: string): Promise<string[]> => {
     const url = "https://api.spotify.com/v1/me/player/recently-played";
@@ -50,9 +48,9 @@ export const HomeScreen = () => {
       <View style={tailwind("m-2")}/>
       <Text style={tailwind("text-white")}>{count}</Text>
       <View style={tailwind("flex-row")}>
-        <StyledButton text={"Decrease"} action={() => setCount(count - 1)}/>
+        <StyledButton text={"Decrease"} action={() => dispatch(changeCount(count - 1))}/>
         <View style={tailwind("m-2")}/>
-        <StyledButton text={"Increase"} action={() => setCount(count + 1)}/>
+        <StyledButton text={"Increase"} action={() => dispatch(changeCount(count + 1))}/>
       </View>
     </Background>
   );

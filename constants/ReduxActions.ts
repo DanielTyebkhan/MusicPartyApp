@@ -1,1 +1,2 @@
 export const COUNTER_CHANGE = 'COUNTER_CHANGE'
+export const CREATED_USER   = "CREATED_USER"

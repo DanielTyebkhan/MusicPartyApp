@@ -4,7 +4,7 @@ import {Text, TouchableOpacity} from "react-native";
 
 export const StyledButton = ({text, action}: {text: string, action: () => void}) => (
   <TouchableOpacity
-    style={tailwind("bg-primary p-3 rounded-lg mt-5")}
+    style={tailwind("bg-primary p-3 rounded-lg")}
     onPress={action}
     activeOpacity={0.7}
   >

@@ -1,9 +1,8 @@
 import {CREATED_USER} from "../constants/ReduxActions";
 
-export const createdUser = (userName: string, userId: string) => ({
+export const createdUser = (user: any) => ({
   type: CREATED_USER,
   payload: {
-    userName,
-    userId
+    user
   }
 });

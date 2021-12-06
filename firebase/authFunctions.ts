@@ -1,42 +1,35 @@
-import {dbResponse} from "./dbResponse";
+import {DbErrorResponse, DbResponse, DbSuccessResponse} from "./dbResponse";
 import {db, fbAuth} from "./index";
 import {doc, setDoc} from "firebase/firestore";
-import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
+import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword} from "firebase/auth";
 
-export const fbSignUpUser = async (email: string, password: string): Promise<dbResponse> => {
-  let resp: dbResponse;
+export const fbSignUpUser = async (email: string, password: string): Promise<DbResponse> => {
   try {
     const userCredential = await createUserWithEmailAndPassword(fbAuth, email, password);
-    resp = {
-      error: null,
-      response: userCredential,
-    }
+    return new DbSuccessResponse(userCredential);
   } catch (error) {
-    resp = {
-      error,
-      response: null,
-    }
+    return new DbErrorResponse(error)
   }
-  return resp;
 }
 
-export const dbCreateUser = async (uuid: string, username: string): Promise<dbResponse> => {
-  let resp: dbResponse;
+export const dbCreateUser = async (uuid: string, username: string): Promise<DbResponse> => {
   try {
     const writeResponse = await setDoc(doc(db, "users", uuid), {
       username
     });
-    resp = { error: null, response: writeResponse };
+    return new DbSuccessResponse(writeResponse);
   } catch (error) {
-    resp = {
-      error,
-      response: null
-    }
+    return new DbErrorResponse(error);
   }
-  return resp;
 }
 
-export const dbLogInUser = async (email: string, password: string): Promise<dbResponse> => {
-  console.log('logging in', email, password)
-  return {} as dbResponse;
+export const dbLogInUser = async (email: string, password: string): Promise<DbResponse> => {
+  const auth = getAuth();
+  try {
+    const signInResponse = await signInWithEmailAndPassword(auth, email, password);
+    return new DbSuccessResponse(signInResponse);
+  }
+  catch (error) {
+    return new DbErrorResponse(error);
+  }
 }

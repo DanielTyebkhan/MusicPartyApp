@@ -5,7 +5,7 @@ import {LinkText} from "./LinkText";
 import {useNavigation} from "@react-navigation/native";
 import {LabelInput} from "./LabelInput";
 import {StyledButton} from "./StyledButton";
-import {dbLogInUser} from "../firebase/authFunctions";
+import {fbLogInUser} from "../firebase/authFunctions";
 import {signInUser, signUpUser} from "../thunks/authThunks";
 import {tailwind} from "../tailwind";
 import {View} from "react-native";

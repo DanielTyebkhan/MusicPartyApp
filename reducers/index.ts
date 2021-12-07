@@ -1,13 +1,15 @@
-import {COUNTER_CHANGE, CREATED_USER} from "../constants/ReduxActions";
+import {COUNTER_CHANGE, SIGN_UP, SIGN_IN, SIGN_IN_FAIL, SIGN_UP_FAIL} from "../constants/ReduxActions";
 
-export interface IState {
+interface IState {
   count: number;
-  currentUser: {} | null,
+  user: {} | null,
+  signInFail: boolean,
 }
 
 const initialState: IState = {
   count: 0,
-  currentUser: null,
+  user: null,
+  signInFail: false,
 };
 
 export const index = (state: IState = initialState, action: any): IState => {
@@ -17,11 +19,27 @@ export const index = (state: IState = initialState, action: any): IState => {
         ...state,
         count: action.payload,
       };
-    case CREATED_USER:
+
+    case SIGN_UP:
       return {
         ...state,
-        currentUser: action.payload.user
+        user: action.payload.user
       }
+
+    case SIGN_IN:
+      return {
+        ...state,
+        user: action.payload.user,
+        signInFail: false
+      }
+
+    case SIGN_IN_FAIL:
+      return {
+        ...state,
+        signInFail: true
+      }
+
+    case SIGN_UP_FAIL:
     default:
       return state;
   }

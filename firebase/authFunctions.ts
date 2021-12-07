@@ -12,6 +12,14 @@ export const fbSignUpUser = async (email: string, password: string): Promise<DbR
   });
 }
 
+export const fbLogInUser = async (email: string, password: string): Promise<DbResponse> => {
+  return dbExecutor(async() => {
+    const auth = getAuth();
+    const signInResponse = await signInWithEmailAndPassword(auth, email, password);
+    return new DbSuccessResponse(signInResponse);
+  });
+}
+
 export const dbCreateUser = async (uuid: string, username: string): Promise<DbResponse> => {
   return dbExecutor(async () => {
     const writeResponse = await setDoc(doc(db, USERS, uuid), {
@@ -21,10 +29,3 @@ export const dbCreateUser = async (uuid: string, username: string): Promise<DbRe
   });
 }
 
-export const dbLogInUser = async (email: string, password: string): Promise<DbResponse> => {
-  return dbExecutor(async() => {
-    const auth = getAuth();
-    const signInResponse = await signInWithEmailAndPassword(auth, email, password);
-    return new DbSuccessResponse(signInResponse);
-  });
-}

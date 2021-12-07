@@ -1,15 +1,24 @@
-import {createdUser} from "../actions/authActions";
+import {signedInUserEvent, signInFailEvent, signUpEvent, signUpFailEvent} from "../actions/authActions";
 import {AppDispatch} from "../ReduxStore";
-import {dbCreateUser, fbSignUpUser} from "../firebase/authFunctions";
+import {dbCreateUser, fbLogInUser, fbSignUpUser} from "../firebase/authFunctions";
 
 export const signUpUser = (username: string, password: string, email: string) => async (dispatch: AppDispatch) => {
-  console.log('in sign up thunk');
+  // TODO: Figure out what to do if account creation is possible but db fails writing
   const authed = await fbSignUpUser(email, password);
-  const written = await dbCreateUser(authed.response.user.uid, username);
-
-  dispatch(createdUser(authed.response.user));
+  if (authed.success) {
+    const written = await dbCreateUser(authed.response.user.uid, username);
+    if (written.success)
+      dispatch(signUpEvent(authed.response.user));
+      return;
+  }
+  dispatch(signUpFailEvent());
 }
 
 export const signInUser = (email: string, password: string) => async (dispatch: AppDispatch) => {
-  console.log('hit sign in thunk');
+  const signedIn = await fbLogInUser(email, password);
+  if (signedIn.success) {
+    dispatch(signedInUserEvent(signedIn.response));
+  } else {
+    dispatch(signInFailEvent());
+  }
 }

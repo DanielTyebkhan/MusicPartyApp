@@ -1,14 +1,14 @@
 import {SIGN_UP, SIGN_IN, SIGN_IN_FAIL, SIGN_UP_FAIL} from "../constants/ReduxActions";
+import {UserInfo} from "../types/authTypes";
 
 interface IState {
   count: number;
-  user: {} | null,
+  user?: UserInfo,
   signInFail: boolean,
 }
 
 const initialState: IState = {
   count: 0,
-  user: null,
   signInFail: false,
 };
 

@@ -4,28 +4,36 @@ import {doc, setDoc} from "firebase/firestore";
 import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import {dbExecutor} from "./dbExecutor";
 import {USERS} from "../constants/Firebase";
+import {UserInfo} from "../types/authTypes";
 
-export const fbSignUpUser = async (email: string, password: string): Promise<DbResponse> => {
-  return dbExecutor(async () => {
+type SignUpInfo = { uid: string }
+export const fbSignUpUser = async (email: string, password: string): Promise<DbResponse<SignUpInfo>> => (
+  dbExecutor<SignUpInfo>(async () => {
     const userCredential = await createUserWithEmailAndPassword(fbAuth, email, password);
-    return new DbSuccessResponse(userCredential);
-  });
-}
+    return {
+      uid: userCredential.user.uid
+    };
+  })
+);
 
-export const fbLogInUser = async (email: string, password: string): Promise<DbResponse> => {
-  return dbExecutor(async() => {
+export const fbLogInUser = async (email: string, password: string): Promise<DbResponse<UserInfo>> => (
+  dbExecutor<UserInfo>(async () => {
     const auth = getAuth();
     const signInResponse = await signInWithEmailAndPassword(auth, email, password);
-    return new DbSuccessResponse(signInResponse);
-  });
-}
+    return {
+      uid: signInResponse.user.uid,
+      username: "TODO",
+    };
+  })
+);
 
-export const dbCreateUser = async (uuid: string, username: string): Promise<DbResponse> => {
-  return dbExecutor(async () => {
-    const writeResponse = await setDoc(doc(db, USERS, uuid), {
+export const dbCreateUser = async (uid: string, username: string): Promise<DbResponse<UserInfo>> => (
+  dbExecutor<UserInfo>(async () => {
+    const writeResponse = await setDoc(doc(db, USERS, uid), {username});
+    return {
+      uid,
       username
-    });
-    return new DbSuccessResponse(writeResponse);
-  });
-}
+    };
+  })
+);
 

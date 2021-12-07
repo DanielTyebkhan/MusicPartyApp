@@ -3,21 +3,21 @@ export interface DbError {
   message: string;
 }
 
-export interface DbResponse {
+export interface DbResponse<T> {
   readonly success: boolean;
   readonly error?: DbError;
-  readonly response?: any;
+  readonly response?: T;
 }
 
-export class DbSuccessResponse implements DbResponse {
+export class DbSuccessResponse<T> implements DbResponse<T> {
   success: boolean = true;
-  response: any;
-  constructor(response: any) {
+  response: T;
+  constructor(response: T) {
     this.response = response;
   }
 }
 
-export class DbErrorResponse implements DbResponse {
+export class DbErrorResponse implements DbResponse<null> {
   success: boolean = false;
   error: DbError;
   constructor(error: DbError) {

@@ -12,9 +12,9 @@ export const signUpUser = (username: string, password: string, email: string) =>
   // TODO: Figure out what to do if account creation is possible but db fails writing
   const authed = await fbSignUpUser(email, password);
   if (authed.success) {
-    const written = await dbWriteUser(authed.response.user.uid, username);
+    const written = await dbWriteUser(authed.response.uid, username);
     if (written.success)
-      dispatch(signUpEvent(authed.response.user));
+      dispatch(signUpEvent(authed.response.uid));
       return;
   }
   dispatch(signUpFailEvent());

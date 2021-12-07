@@ -1,12 +1,12 @@
 export interface DbError {
-  code: string;
-  message: string;
+  readonly code: string;
+  readonly message: string;
 }
 
 export interface DbResponse<T> {
   readonly success: boolean;
   readonly error?: DbError;
-  readonly response?: T;
+  readonly response: T;
 }
 
 export class DbSuccessResponse<T> implements DbResponse<T> {
@@ -17,8 +17,9 @@ export class DbSuccessResponse<T> implements DbResponse<T> {
   }
 }
 
-export class DbErrorResponse implements DbResponse<null> {
+export class DbErrorResponse implements DbResponse<{}> {
   success: boolean = false;
+  response: {} = {};
   error: DbError;
   constructor(error: DbError) {
     this.error = error;

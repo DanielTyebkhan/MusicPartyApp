@@ -5,21 +5,17 @@ interface IState {
   count: number;
   user?: UserData,
   signInFail: boolean,
+  signUpFail: boolean,
 }
 
 const initialState: IState = {
   count: 0,
   signInFail: false,
+  signUpFail: false,
 };
 
 export const index = (state: IState = initialState, action: any): IState => {
   switch (action.type) {
-    case SIGN_UP:
-      return {
-        ...state,
-        user: action.payload.user
-      }
-
     case SIGN_IN:
       return {
         ...state,
@@ -38,9 +34,18 @@ export const index = (state: IState = initialState, action: any): IState => {
         ...state,
         user: undefined
       }
-
+    case SIGN_UP:
+      return {
+        ...state,
+        signUpFail: false
+      }
 
     case SIGN_UP_FAIL:
+      return {
+        ...state,
+        signUpFail: true
+      }
+
     default:
       return state;
   }

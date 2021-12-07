@@ -1,12 +1,18 @@
-import {signedInUserEvent, signInFailEvent, signUpEvent, signUpFailEvent} from "../actions/authActions";
+import {
+  signedInUserEvent,
+  signedOutUserEvent,
+  signInFailEvent,
+  signUpEvent,
+  signUpFailEvent
+} from "../actions/authActions";
 import {AppDispatch} from "../ReduxStore";
-import {dbCreateUser, fbLogInUser, fbSignUpUser} from "../firebase/authFunctions";
+import {dbWriteUser, fbLogInUser, fbLogOutUser, fbSignUpUser} from "../firebase/authFunctions";
 
 export const signUpUser = (username: string, password: string, email: string) => async (dispatch: AppDispatch) => {
   // TODO: Figure out what to do if account creation is possible but db fails writing
   const authed = await fbSignUpUser(email, password);
   if (authed.success) {
-    const written = await dbCreateUser(authed.response.user.uid, username);
+    const written = await dbWriteUser(authed.response.user.uid, username);
     if (written.success)
       dispatch(signUpEvent(authed.response.user));
       return;
@@ -20,5 +26,12 @@ export const signInUser = (email: string, password: string) => async (dispatch: 
     dispatch(signedInUserEvent(signedIn.response));
   } else {
     dispatch(signInFailEvent());
+  }
+}
+
+export const signOutUser = () => async (dispatch: AppDispatch) => {
+  const signedOut = await fbLogOutUser();
+  if (signedOut.success) {
+    dispatch(signedOutUserEvent());
   }
 }

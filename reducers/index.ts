@@ -1,9 +1,9 @@
-import {SIGN_UP, SIGN_IN, SIGN_IN_FAIL, SIGN_UP_FAIL} from "../constants/ReduxActions";
-import {UserInfo} from "../types/authTypes";
+import {SIGN_UP, SIGN_IN, SIGN_IN_FAIL, SIGN_UP_FAIL, SIGN_OUT} from "../constants/ReduxActions";
+import {UserData} from "../types/authTypes";
 
 interface IState {
   count: number;
-  user?: UserInfo,
+  user?: UserData,
   signInFail: boolean,
 }
 
@@ -21,7 +21,6 @@ export const index = (state: IState = initialState, action: any): IState => {
       }
 
     case SIGN_IN:
-      console.log('logged in')
       return {
         ...state,
         user: action.payload.user,
@@ -29,11 +28,17 @@ export const index = (state: IState = initialState, action: any): IState => {
       }
 
     case SIGN_IN_FAIL:
-      console.log('failed login')
       return {
         ...state,
         signInFail: true
       }
+
+    case SIGN_OUT:
+      return {
+        ...state,
+        user: undefined
+      }
+
 
     case SIGN_UP_FAIL:
     default:

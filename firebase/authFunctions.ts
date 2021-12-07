@@ -1,13 +1,13 @@
-import {DbResponse, DbSuccessResponse} from "./dbResponse";
+import {DbResponse} from "./dbResponse";
 import {db, fbAuth} from "./index";
 import {doc, setDoc} from "firebase/firestore";
-import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {signOut, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import {dbExecutor} from "./dbExecutor";
 import {USERS} from "../constants/Firebase";
-import {UserInfo} from "../types/authTypes";
+import {UserData} from "../types/authTypes";
 
 type SignUpInfo = { uid: string };
-export const fbSignUpUser = async (email: string, password: string): Promise<DbResponse<SignUpInfo>> => (
+export const fbSignUpUser = (email: string, password: string): Promise<DbResponse<SignUpInfo>> => (
   dbExecutor<SignUpInfo>(async () => {
     const userCredential = await createUserWithEmailAndPassword(fbAuth, email, password);
     return {
@@ -16,8 +16,8 @@ export const fbSignUpUser = async (email: string, password: string): Promise<DbR
   })
 );
 
-export const fbLogInUser = async (email: string, password: string): Promise<DbResponse<UserInfo>> => (
-  dbExecutor<UserInfo>(async () => {
+export const fbLogInUser = (email: string, password: string): Promise<DbResponse<UserData>> => (
+  dbExecutor<UserData>(async () => {
     const auth = getAuth();
     const signInResponse = await signInWithEmailAndPassword(auth, email, password);
     return {
@@ -27,9 +27,16 @@ export const fbLogInUser = async (email: string, password: string): Promise<DbRe
   })
 );
 
-export const dbCreateUser = async (uid: string, username: string): Promise<DbResponse<UserInfo>> => (
-  dbExecutor<UserInfo>(async () => {
-    const writeResponse = await setDoc(doc(db, USERS, uid), {username});
+export const fbLogOutUser = (): Promise<DbResponse<void>> => (
+  dbExecutor<void>(async() => {
+    const auth = getAuth();
+    await signOut(auth);
+  })
+)
+
+export const dbWriteUser = (uid: string, username: string): Promise<DbResponse<UserData>> => (
+  dbExecutor<UserData>(async () => {
+    await setDoc(doc(db, USERS, uid), {username});
     return {
       uid,
       username

@@ -1,9 +1,11 @@
-import firebase from "firebase/compat";
-import FirebaseError = firebase.FirebaseError;
+export interface DbError {
+  code: string;
+  message: string;
+}
 
 export interface DbResponse {
   readonly success: boolean;
-  readonly error?: FirebaseError;
+  readonly error?: DbError;
   readonly response?: any;
 }
 
@@ -17,8 +19,8 @@ export class DbSuccessResponse implements DbResponse {
 
 export class DbErrorResponse implements DbResponse {
   success: boolean = false;
-  error: FirebaseError;
-  constructor(error: FirebaseError) {
+  error: DbError;
+  constructor(error: DbError) {
     this.error = error;
   }
 }

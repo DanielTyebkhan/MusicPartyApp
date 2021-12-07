@@ -6,7 +6,7 @@ import {dbExecutor} from "./dbExecutor";
 import {USERS} from "../constants/Firebase";
 import {UserInfo} from "../types/authTypes";
 
-type SignUpInfo = { uid: string }
+type SignUpInfo = { uid: string };
 export const fbSignUpUser = async (email: string, password: string): Promise<DbResponse<SignUpInfo>> => (
   dbExecutor<SignUpInfo>(async () => {
     const userCredential = await createUserWithEmailAndPassword(fbAuth, email, password);

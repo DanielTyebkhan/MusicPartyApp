@@ -8,27 +8,40 @@ import {createDrawerNavigator} from "@react-navigation/drawer";
 import {SignInScreen} from "./screens/SignInScreen";
 import {SignUpScreen} from "./screens/SignUpScreen";
 import {isLoggedIn} from "./selectors/AuthSelectors";
-import {useStore} from "react-redux";
+import {connect, useSelector, useStore} from "react-redux";
 import {RootState} from "./ReduxStore";
+import {createStackNavigator} from "@react-navigation/stack";
 
 const Drawer = createDrawerNavigator();
 
-export const MainAppComponent = () => {
-  const store: RootState = useStore();
+const Stack = createStackNavigator();
 
+const SignedInStack = (
+  <NavigationContainer>
+    <Drawer.Navigator initialRouteName={HOME_SCREEN} screenOptions={{headerStatusBarHeight: 30}}>
+      <Drawer.Screen name={HOME_SCREEN} component={HomeScreen}/>
+    </Drawer.Navigator>
+  </NavigationContainer>
+);
+
+const SignedOutStack = (
+  <NavigationContainer>
+    <Stack.Navigator initialRouteName={SIGN_IN} screenOptions={{headerShown: false}}>
+      <Drawer.Screen name={SIGN_IN} component={SignInScreen}/>
+      <Drawer.Screen name={SIGN_UP} component={SignUpScreen}/>
+    </Stack.Navigator>
+  </NavigationContainer>
+)
+
+export const MainAppComponent = () => {
   const isLoadingComplete = useCachedResources();
+  const signedIn = useSelector((state: RootState) => isLoggedIn(state));
   if (!isLoadingComplete) {
     return null;
   } else {
-    return (
-      <NavigationContainer>
-        <Drawer.Navigator screenOptions={{headerStatusBarHeight: 30}} initialRouteName={HOME_SCREEN}>
-          <Drawer.Screen name={HOME_SCREEN} component={HomeScreen}/>
-          <Drawer.Screen name={SIGN_IN} component={SignInScreen} options={{drawerItemStyle: {display: isLoggedIn(store) ? "none" : "flex"}}}/>
-          <Drawer.Screen name={SIGN_UP} component={SignUpScreen} options={{drawerItemStyle: {display: "none"}}}/>
-        </Drawer.Navigator>
-      </NavigationContainer>
-    );
+    if (signedIn)
+      return SignedInStack;
+    else
+      return SignedOutStack;
   }
 }
-

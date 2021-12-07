@@ -1,18 +1,11 @@
 import {View, Text, FlatList} from "react-native";
 import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {COUNTER_CHANGE} from "../constants/ReduxActions";
-import {IState} from "../reducers";
 import {StyledButton} from "../components/StyledButton";
 import {tailwind} from "../tailwind";
 import { Background } from "../components/Background";
 import { StyledTextInput } from "../components/StyledTextInput";
-import {changeCount} from "../actions/counts";
 
 export const HomeScreen = () => {
-  const dispatch = useDispatch();
-  const count = useSelector((store: IState) => store.count);
-
   const [text, changeText] = useState("");
   const [songs, setSongs] = useState([] as string[]);
 
@@ -46,12 +39,6 @@ export const HomeScreen = () => {
       <View style={tailwind("m-2")}/>
       <FlatList style={tailwind("bg-red-800 flex-grow-0")} data={songs} renderItem={trackNameComp}/>
       <View style={tailwind("m-2")}/>
-      <Text style={tailwind("text-white")}>{count}</Text>
-      <View style={tailwind("flex-row")}>
-        <StyledButton text={"Decrease"} action={() => dispatch(changeCount(count - 1))}/>
-        <View style={tailwind("m-2")}/>
-        <StyledButton text={"Increase"} action={() => dispatch(changeCount(count + 1))}/>
-      </View>
     </Background>
   );
 };

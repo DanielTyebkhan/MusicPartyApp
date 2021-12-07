@@ -4,6 +4,7 @@ export const dbExecutor = async <T>(toExecute: () => Promise<T>): Promise<DbResp
   try {
     return new DbSuccessResponse<T>(await toExecute());
   } catch (error) {
+    console.log(error);
     return new DbErrorResponse(error);
   }
 }

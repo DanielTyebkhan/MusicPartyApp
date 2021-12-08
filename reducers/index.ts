@@ -1,4 +1,4 @@
-import {SIGN_UP, SIGN_IN, SIGN_IN_FAIL, SIGN_UP_FAIL, SIGN_OUT} from "../constants/ReduxActions";
+import {SIGN_UP, SIGN_IN, SIGN_IN_FAIL, SIGN_UP_FAIL, SIGN_OUT, SIGN_OUT_FAIL} from "../constants/ReduxActions";
 import {UserData} from "../types/authTypes";
 
 interface IState {
@@ -34,6 +34,7 @@ export const index = (state: IState = initialState, action: any): IState => {
         ...state,
         user: undefined
       }
+
     case SIGN_UP:
       return {
         ...state,

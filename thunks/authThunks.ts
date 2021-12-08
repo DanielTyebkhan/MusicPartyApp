@@ -1,7 +1,7 @@
 import {
   signedInUserEvent,
   signedOutUserEvent,
-  signInFailEvent,
+  signInFailEvent, signOutFailEvent,
   signUpEvent,
   signUpFailEvent
 } from "../actions/authActions";
@@ -13,9 +13,12 @@ export const signUpUser = (username: string, password: string, email: string) =>
   const authed = await fbSignUpUser(email, password);
   if (authed.success) {
     const written = await dbWriteUser(authed.response.uid, username);
-    if (written.success)
-      dispatch(signUpEvent(authed.response.uid));
+    if (written.success) {
+      const uid = authed.response.uid;
+      dispatch(signUpEvent(uid));
+      dispatch(signedInUserEvent({uid, username}));
       return;
+    }
   }
   dispatch(signUpFailEvent());
 }
@@ -33,5 +36,7 @@ export const signOutUser = () => async (dispatch: AppDispatch) => {
   const signedOut = await fbLogOutUser();
   if (signedOut.success) {
     dispatch(signedOutUserEvent());
+  } else {
+    dispatch(signOutFailEvent());
   }
 }

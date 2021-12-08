@@ -1,4 +1,4 @@
-import {SIGN_IN_FAIL, SIGN_UP, SIGN_IN, SIGN_UP_FAIL, SIGN_OUT} from "../constants/ReduxActions";
+import {SIGN_IN_FAIL, SIGN_UP, SIGN_IN, SIGN_UP_FAIL, SIGN_OUT, SIGN_OUT_FAIL} from "../constants/ReduxActions";
 import {UserData} from "../types/authTypes";
 
 export const signUpEvent = (user: any) => ({
@@ -25,4 +25,8 @@ export const signInFailEvent = () => ({
 
 export const signedOutUserEvent = () => ({
   type: SIGN_OUT
+})
+
+export const signOutFailEvent = () => ({
+  type: SIGN_OUT_FAIL
 })

@@ -1,6 +1,6 @@
-import {DbResponse} from "./dbResponse";
+import {DbError, DbResponse} from "./dbResponse";
 import {db, fbAuth} from "./index";
-import {doc, setDoc} from "firebase/firestore";
+import {doc, setDoc, getDoc} from "firebase/firestore";
 import {signOut, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import {dbExecutor} from "./dbExecutor";
 import {USERS} from "../constants/Firebase";
@@ -20,12 +20,28 @@ export const fbLogInUser = (email: string, password: string): Promise<DbResponse
   dbExecutor<UserData>(async () => {
     const auth = getAuth();
     const signInResponse = await signInWithEmailAndPassword(auth, email, password);
+    const uid = signInResponse.user.uid;
+    const userData = await dbGetUserProfile(uid);
     return {
-      uid: signInResponse.user.uid,
-      username: "TODO",
+      uid,
+      username: userData.response.username,
     };
   })
 );
+
+export const dbGetUserProfile = (uid: string): Promise<DbResponse<UserData>> => (
+  dbExecutor<UserData>(async () => {
+    const userData = await getDoc(doc(db, USERS, uid));
+    if (userData.exists()) {
+      return {
+        uid,
+        username: userData.data().username,
+      }
+    }
+    const err: DbError = {code: '-1', message: "User Data not found"};
+    throw err;
+  })
+)
 
 export const fbLogOutUser = (): Promise<DbResponse<void>> => (
   dbExecutor<void>(async() => {

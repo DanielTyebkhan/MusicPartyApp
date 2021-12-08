@@ -17,9 +17,9 @@ export class DbSuccessResponse<T> implements DbResponse<T> {
   }
 }
 
-export class DbErrorResponse implements DbResponse<{}> {
+export class DbErrorResponse<T> implements DbResponse<T> {
   success: boolean = false;
-  response: {} = {};
+  response: T = {} as T;
   error: DbError;
   constructor(error: DbError) {
     this.error = error;

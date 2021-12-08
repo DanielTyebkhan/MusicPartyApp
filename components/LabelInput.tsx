@@ -1,7 +1,7 @@
 import React from "react";
 import {View} from "react-native";
 import {tailwind} from "../tailwind";
-import {StyledText} from "./StyledText";
+import {NormalText} from "./StyledText";
 import {StyledTextInput} from "./StyledTextInput";
 
 interface LabelInputProps {
@@ -12,9 +12,9 @@ interface LabelInputProps {
 
 export const LabelInput = ({labelText, inputValue, onChangeInput}: LabelInputProps) => (
   <View style={tailwind("items-center w-full")}>
-    <StyledText>
+    <NormalText>
       {labelText}
-    </StyledText>
+    </NormalText>
     <StyledTextInput value={inputValue} onChangeText={onChangeInput}/>
   </View>
 );

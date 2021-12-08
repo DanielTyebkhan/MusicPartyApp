@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Background} from "./Background";
-import {StyledText} from "./StyledText";
+import {ErrorText, NormalText} from "./StyledText";
 import {LinkText} from "./LinkText";
 import {useNavigation} from "@react-navigation/native";
 import {LabelInput} from "./LabelInput";
@@ -22,18 +22,28 @@ export const UserPassScreen = ({
   const [passwordInput, setPasswordInput] = useState('');
   const [confirmPasswordInput, setConfirmPasswordInput] = useState('');
   const [emailInput, setEmailInput] = useState('');
+
+  const passwordsMatching = () => askConfirmPassword && passwordInput == confirmPasswordInput;
+
+  const onSubmit = () => {
+    if (askConfirmPassword && !passwordsMatching())
+      return;
+    submitAction(userNameInput, emailInput, passwordInput);
+  }
+
+  const showOrNull = (show: boolean, component: JSX.Element) => show ? component : null;
+
   return (
     <Background>
-      {askUsername ?
-        <LabelInput labelText={"Username:"} inputValue={userNameInput} onChangeInput={setUserNameInput}/> : null}
-      {askEmail ?
-        <LabelInput labelText={"Email:"} inputValue={emailInput} onChangeInput={setEmailInput}/> : null}
+      {showOrNull(askUsername, <LabelInput labelText={"Username:"} inputValue={userNameInput} onChangeInput={setUserNameInput}/>)}
+      {showOrNull(askEmail, <LabelInput labelText={"Email:"} inputValue={emailInput} onChangeInput={setEmailInput}/>)}
       <LabelInput labelText={"Password:"} inputValue={passwordInput} onChangeInput={setPasswordInput}/>
-      {askConfirmPassword ?
+      {showOrNull(askConfirmPassword,
         <LabelInput labelText={"Confirm Password:"} inputValue={confirmPasswordInput}
-                    onChangeInput={setConfirmPasswordInput}/> : null}
+                    onChangeInput={setConfirmPasswordInput}/>)}
+      {showOrNull(askConfirmPassword && !passwordsMatching(), <ErrorText>Passwords do not match</ErrorText>)}
       <View style={tailwind("mt-3")}/>
-      <StyledButton text={"Submit"} action={() => submitAction(userNameInput, emailInput, passwordInput)}/>
+      <StyledButton text={"Submit"} action={onSubmit}/>
       {navElement}
     </Background>
   );
@@ -58,10 +68,10 @@ export const SignInSignUpScreen = ({navText, navigationRoute, signIn}: SignInSig
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const NavText = () => (
-    <StyledText>
+    <NormalText>
       {navText.plainText} {' '}
       <LinkText text={navText.linkText} action={() => navigation.navigate(navigationRoute)}/>
-    </StyledText>
+    </NormalText>
   );
   const signInFunc = (username: string, email: string, password: string) => dispatch(signInUser(email, password));
   const signUpFunc = (username: string, email: string, password: string) => dispatch(signUpUser(username, password, email));

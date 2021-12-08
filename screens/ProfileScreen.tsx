@@ -4,7 +4,7 @@ import {RootState} from "../ReduxStore";
 import {Background} from "../components/Background";
 import {StyledButton} from "../components/StyledButton";
 import {signOutUser} from "../thunks/authThunks";
-import {StyledText} from "../components/StyledText";
+import {NormalText} from "../components/StyledText";
 import {UserData} from "../types/authTypes";
 
 export const ProfileScreen = () => {
@@ -12,7 +12,7 @@ export const ProfileScreen = () => {
   const dispatch = useDispatch();
   return (
     <Background>
-      <StyledText>{`${username}'s Profile`}</StyledText>
+      <NormalText>{`${username}'s Profile`}</NormalText>
       <StyledButton text="Sign Out" action={() => dispatch(signOutUser())} />
     </Background>
   );

@@ -10,10 +10,16 @@ import {UserData} from "../types/authTypes";
 export const ProfileScreen = () => {
   const {username} = useSelector((state: RootState) => state.user) as UserData;
   const dispatch = useDispatch();
+
+  const spotifySignIn = () => {
+    
+  }
+
   return (
     <Background>
       <NormalText>{`${username}'s Profile`}</NormalText>
       <StyledButton text="Sign Out" action={() => dispatch(signOutUser())} />
+      <StyledButton text="Sign In With Spotify" action={spotifySignIn} />
     </Background>
   );
 }

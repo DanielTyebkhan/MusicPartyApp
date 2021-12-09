@@ -13,5 +13,3 @@ web-build/
 # macOS
 .DS_Store
 
-# Secrets (NEVER PUT THESE IN THE REPO)
-secrets.js

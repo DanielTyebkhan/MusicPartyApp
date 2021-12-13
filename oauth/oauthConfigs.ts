@@ -8,10 +8,9 @@ export interface OAuthConfig {
 export const spotifyConfig = (redirectUri: string): OAuthConfig => ({
   discovery: {
     authorizationEndpoint: "https://accounts.spotify.com/authorize",
-    tokenEndpoint: "https://accounts.spotify.com/api/token"
   },
   config: {
-    responseType: ResponseType.Token,
+    responseType: ResponseType.Code,
     clientId: 'a135513fa34343dbb12a8b69eae97885',
     redirectUri,
     scopes: ['user-top-read'],

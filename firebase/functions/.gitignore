@@ -10,3 +10,6 @@ node_modules/
 
 # env file with secrets
 .env
+
+# firebase key file
+firebase-admin-sdk-key.json

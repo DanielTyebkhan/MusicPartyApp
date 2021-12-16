@@ -20,11 +20,12 @@ export const getSpotifyAccessToken = functions.https.onRequest(async (request, r
     params
   }
   const accessTokenResponse = await axios.get('https://accounts.spotify.com/api/token', config);
-  // TODO: store access token in db
-  if (accessTokenResponse.status === 200)
-    response.send({success: true});
-  else
-    response.send({success: false})
+  if (accessTokenResponse.status !== 200) {
+    response.send({success: false, message: "failed to generate access token"});
+    return;
+  }
+
+  response.send({success: true});
 });
 
 export const refreshSpotifyAccessToken = functions.https.onRequest((request, response) => {

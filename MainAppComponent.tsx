@@ -8,10 +8,12 @@ import {createDrawerNavigator} from "@react-navigation/drawer";
 import {SignInScreen} from "./screens/SignInScreen";
 import {SignUpScreen} from "./screens/SignUpScreen";
 import {isLoggedIn} from "./selectors/AuthSelectors";
-import {connect, useSelector, useStore} from "react-redux";
-import {RootState} from "./ReduxStore";
+import {useDispatch, useSelector} from "react-redux";
+import { RootState} from "./ReduxStore";
 import {createStackNavigator} from "@react-navigation/stack";
 import {ProfileScreen} from "./screens/ProfileScreen";
+import {signOutUser} from "./thunks/authThunks";
+import {fbAuth} from "./firebase";
 
 const Drawer = createDrawerNavigator();
 
@@ -36,6 +38,9 @@ const SignedOutStack = (
 )
 
 export const MainAppComponent = () => {
+  // TODO: remove this sign out and autodetect signed in users
+  if (fbAuth?.currentUser)
+    useDispatch()(signOutUser());
   const isLoadingComplete = useCachedResources();
   const signedIn = useSelector((state: RootState) => isLoggedIn(state));
   if (!isLoadingComplete) {

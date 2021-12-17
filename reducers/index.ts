@@ -15,6 +15,7 @@ const initialState: IState = {
 };
 
 export const index = (state: IState = initialState, action: any): IState => {
+  console.log(action.type);
   switch (action.type) {
     case SIGN_IN:
       return {

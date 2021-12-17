@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import {MainAppComponent} from "./MainAppComponent";
 import {store} from "./ReduxStore";
 
-
 const App = () => (
   <Provider store={store}>
     <MainAppComponent />

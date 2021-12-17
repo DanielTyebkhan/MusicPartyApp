@@ -9,6 +9,8 @@ import {UserData} from "../types/authTypes";
 type SignUpInfo = { uid: string };
 export const fbSignUpUser = (email: string, password: string): Promise<DbResponse<SignUpInfo>> => (
   dbExecutor<SignUpInfo>(async () => {
+    console.log(email, password)
+    console.log(fbAuth);
     const userCredential = await createUserWithEmailAndPassword(fbAuth, email, password);
     return {
       uid: userCredential.user.uid

@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
-import {getAuth} from "firebase/auth";
+import {getAuth, connectAuthEmulator} from "firebase/auth";
 import {getFirestore, connectFirestoreEmulator} from "firebase/firestore";
+import {getFunctions, connectFunctionsEmulator} from "firebase/functions";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBtFLd62V_zZovwMCZLHX7P_pCN6HzXJjk",
@@ -12,8 +13,12 @@ const firebaseConfig = {
   measurementId: "G-GG7563W1KN"
 };
 
-export const fbApp = initializeApp(firebaseConfig);
+const fbApp = initializeApp(firebaseConfig);
+
 export const fbAuth = getAuth(fbApp);
+connectAuthEmulator(fbAuth, "http://localhost:9099");
+export const fbFunctions = getFunctions(fbApp);
+connectFunctionsEmulator(fbFunctions, 'localhost', 5001);
 export const db = getFirestore(fbApp);
 connectFirestoreEmulator(db, 'localhost', 8080);
 
